@@ -1,0 +1,35 @@
+<script>
+    let coins = parseInt(localStorage.getItem('coins')) || 0;
+    let tickets = parseInt(localStorage.getItem('tickets')) || 0;
+
+    // Actualizar visual al cargar
+    document.getElementById('coins').innerText = coins;
+    document.getElementById('tickets').innerText = tickets;
+
+    function recompensa() {
+        const boton = event.target;
+        boton.disabled = true;
+        boton.innerText = "⏳ TALANDO MADERA...";
+        boton.style.opacity = "0.5";
+
+        // Simulamos la "publicidad" o el tiempo de trabajo
+        setTimeout(() => {
+            tickets += 1;
+            coins += 50;
+            
+            // Guardar en la memoria del navegador para que no se pierda al cerrar
+            localStorage.setItem('coins', coins);
+            localStorage.setItem('tickets', tickets);
+
+            // Actualizar la pantalla
+            document.getElementById('coins').innerText = coins;
+            document.getElementById('tickets').innerText = tickets;
+
+            boton.disabled = false;
+            boton.innerText = "🪵 ¡TALAR MÁS!";
+            boton.style.opacity = "1";
+
+            alert("¡TRABAJO TERMINADO! +1 Ticket y +50 PokeCoins en tu bóveda. 🍌✨");
+        }, 3000); // 3 segundos de "tala"
+    }
+</script>
