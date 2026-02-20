@@ -1,0 +1,76 @@
+async function generarPackDual() {
+    const zip = new JSZip();
+    const nombreItem = "item_romeo";
+    const danio = document.getElementById('danio').value;
+    const poder = document.getElementById('poder-principal').value;
+
+    // --- GENERACIÓN PARA BEDROCK ---
+    const bedrockItem = {
+        "format_version": "1.21.0",
+        "minecraft:item": {
+            "description": { "identifier": `pokestill:${nombreItem}` },
+            "components": {
+                "minecraft:damage": parseInt(danio),
+                "minecraft:hand_equipped": true
+            }
+        }
+    };
+    zip.file("BP/items/item_custom.json", JSON.stringify(bedrockItem, null, 2));
+
+    // --- GENERACIÓN PARA JAVA ---
+    const javaRecipe = {
+        "type": "minecraft:crafting_shaped",
+        "pattern": ["###", "#X#", "###"],
+        "key": { "#": { "item": "minecraft:iron_ingot" }, "X": { "item": "minecraft:diamond" } },
+        "result": { "item": "minecraft:sword", "count": 1 }
+    };
+    zip.file("data/minecraft/recipes/custom_recipe.json", JSON.stringify(javaRecipe, null, 2));
+
+    // DESCARGA AUTOMÁTICA
+    const content = await zip.generateAsync({type:"blob"});
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(content);
+    link.download = "PocketTweaks_Evolution.zip";
+    link.click();
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pocket Tweaks: Evolution | PokeStill</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>POCKET TWEAKS: EVOLUTION</h1>
+        <p>El fin del Pay-to-Win. Crea gratis para Java y Bedrock.</p>
+    </header>
+
+    <main>
+        <section id="crafting-section">
+            <h3>DISEÑA TU RECETA</h3>
+            <div class="grid-3x3" id="mesa">
+                <div class="slot" data-slot="1"></div><div class="slot" data-slot="2"></div><div class="slot" data-slot="3"></div>
+                <div class="slot" data-slot="4"></div><div class="slot" data-slot="5"></div><div class="slot" data-slot="6"></div>
+                <div class="slot" data-slot="7"></div><div class="slot" data-slot="8"></div><div class="slot" data-slot="9"></div>
+            </div>
+        </section>
+
+        <section id="attributes">
+            <h3>PODERES Y ATRIBUTOS</h3>
+            <select id="poder-principal">
+                <option value="none">Sin Poder Especial</option>
+                <option value="fuego">Aspecto Ígneo (Fuego)</option>
+                <option value="explosion">Impacto Explosivo</option>
+                <option value="velocidad">Velocidad de Relámpago</option>
+            </select>
+            <input type="number" id="danio" placeholder="Daño de ataque" value="10">
+        </section>
+
+        <button id="btn-descarga" onclick="generarPackDual()">🚀 DESCARGA DUAL (JAVA & BEDROCK)</button>
+    </main>
+
+    <script src="motor-dual.js"></script>
+</body>
+</html>
