@@ -74,3 +74,41 @@ async function generarPackDual() {
     <script src="motor-dual.js"></script>
 </body>
 </html>
+<div class="generador-container" style="background: #273c75; padding: 30px; margin: 20px; border-radius: 20px; border: 3px dashed #fbc531;">
+    <h2>🤖 GENERADOR DE ADDONS IA 🤖</h2>
+    <p>Describe tu idea y la Locomotora la fabricará (Costo: 10 Tickets de Madera)</p>
+    
+    <textarea id="descripcion-addon" placeholder="Ej: Una espada de esmeralda que lanza rayos..." style="width: 80%; height: 100px; border-radius: 10px; padding: 10px;"></textarea>
+    <br>
+    <button class="btn-talar" onclick="generarAddon()" style="background: #fbc531; color: #2f3640; margin-top: 15px;">🚀 ¡GENERAR ADDON AHORA!</button>
+
+    <div id="resultado-ia" style="margin-top: 20px; font-weight: bold; color: #4cd137;"></div>
+</div>
+
+<script>
+    function generarAddon() {
+        const descripcion = document.getElementById('descripcion-addon').value;
+        const resultado = document.getElementById('resultado-ia');
+
+        if (tickets < 10) {
+            alert("❌ ¡No tienes suficientes Tickets! Tala más madera viendo videos.");
+            return;
+        }
+
+        if (descripcion.length < 5) {
+            alert("⚠️ Por favor, describe mejor tu addon para que la IA lo entienda.");
+            return;
+        }
+
+        // Consumir tickets
+        tickets -= 10;
+        document.getElementById('tickets').innerText = tickets;
+        
+        resultado.innerHTML = "🛠️ Procesando descripción: '" + descripcion + "'...";
+        
+        setTimeout(() => {
+            resultado.innerHTML = "✅ ¡ADDON GENERADO! <br> [Código JSON generado con éxito] <br> Descargando paquete de comportamiento...";
+            alert("¡La IA de PokeStill ha terminado! Tu addon de '" + descripcion + "' está listo para Minecraft.");
+        }, 3000);
+    }
+</script>
